@@ -7,6 +7,11 @@
     <artifactId>PDMTools</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
+
+    <repositories>
+
+    </repositories>
+
     <build>
         <finalName>${artifactId}</finalName>
         <resources>
