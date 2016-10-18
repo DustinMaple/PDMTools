@@ -2,6 +2,7 @@ package com.maple.pdm.parser;
 
 import com.maple.pdm.constants.PDMNodeContants;
 import com.maple.pdm.core.Parser;
+import com.maple.pdm.entity.Column;
 import com.maple.pdm.entity.Table;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -15,23 +16,25 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import static com.maple.pdm.constants.PDMNodeContants.*;
 /**
  * Created by Administrator on 2016/9/20 0020.
  */
-public class PDMParser implements Parser{
+public class PDMParser implements Parser {
     private static final Logger log = LoggerFactory.getLogger(PDMParser.class);
 
     private static final PDMParser instance = new PDMParser();
 
-    private PDMParser(){
+    private PDMParser() {
     }
 
-    public static PDMParser getInstance(){
+    public static PDMParser getInstance() {
         return instance;
     }
 
     /**
      * Parse the file to tables.
+     *
      * @param pdmFile
      * @return
      */
@@ -44,7 +47,7 @@ public class PDMParser implements Parser{
             e.printStackTrace();
         }
 
-        if(doc == null){
+        if (doc == null) {
             log.error("The document {} is not exites", pdmFile.getAbsolutePath());
             return null;
         }
@@ -54,6 +57,7 @@ public class PDMParser implements Parser{
 
     /**
      * Get tables from the document object.
+     *
      * @param doc
      * @return
      */
@@ -62,20 +66,54 @@ public class PDMParser implements Parser{
 
         List tableElements = doc.selectNodes(PDMNodeContants.TABLE_NODE);
 
-        if(tableElements.size() == 0){
+        if (tableElements.size() == 0) {
             log.error("There is not any table in the file.");
         }
         Iterator iterator = tableElements.iterator();
 
-        while(iterator.hasNext())
-        {
-            Element element = (Element) iterator.next();
-            String tableName = element.elementTextTrim(PDMNodeContants.NAME);
-            Table table = new Table();
-            table.setName(tableName);
+        Element element = null;
+        Table table = null;
+        while (iterator.hasNext()) {
+            table = new Table();
+            element = (Element) iterator.next();
+
+            table.setName(element.elementTextTrim(PDMNodeContants.NAME));
+            table.setColumnList(getColumns(element));
             tableList.add(table);
         }
 
         return tableList.toArray(new Table[tableList.size()]);
     }
+
+    /**
+     * Get all column elements.
+     *
+     * @param element
+     * @return
+     */
+    private List<Column> getColumns(Element element) {
+        List<Column> columnList = new ArrayList<>();
+        Column column = null;
+        Iterator iterator = element.element(PDMNodeContants.COLUMNS).elements(PDMNodeContants.COLUMN).iterator();
+
+        while (iterator.hasNext()) {
+            column = new Column();
+
+            Element columnElement = (Element) iterator.next();
+            String columnId = columnElement.attributeValue(PDMNodeContants.ID);
+            boolean isPrimary = element.element(PRIMARY).element(KEY).attributeValue(REF).equals(columnId);
+
+            column.setName(columnElement.elementTextTrim(NAME));
+            column.setCode(columnElement.elementTextTrim(CODE));
+            column.setComment(columnElement.elementTextTrim(COMMENT));
+            column.setType(columnElement.elementTextTrim(TYPE));
+            column.setPrimaryKey(isPrimary);
+
+            columnList.add(column);
+        }
+
+        return columnList;
+    }
+
+
 }

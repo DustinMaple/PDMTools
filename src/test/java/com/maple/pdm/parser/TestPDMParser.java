@@ -21,7 +21,7 @@ public class TestPDMParser {
     @Test
     public void testPDMFileReader() throws DocumentException {
         File pdmFile = new File("E:/test.pdm");
-        if(!pdmFile.exists()){
+        if (!pdmFile.exists()) {
             log.error("File {} is not exists.", pdmFile.getAbsolutePath());
             return;
         }
@@ -31,11 +31,15 @@ public class TestPDMParser {
     }
 
     @Test
-    public void testParser(){
+    public void testParser() {
         File pdmFile = new File("E:/test.pdm");
         if (pdmFile.exists()) {
             Table[] tables = PDMParser.getInstance().parse(pdmFile);
+
             log.info("table array length is {}", tables.length);
+            for (Table table : tables) {
+                log.info(table.toString());
+            }
         } else {
             log.error("File {} is not exist.", pdmFile);
         }

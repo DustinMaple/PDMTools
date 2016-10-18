@@ -11,9 +11,12 @@ public class PDMNodeContants {
     //=============ELEMENT=============
     public static final String COLUMNS = "Columns";
     public static final String COLUMN = "Column";
-    public static final String NAME = "name";
-    public static final String CODE = "code";
+    public static final String NAME = "Name";
+    public static final String CODE = "Code";
     public static final String TYPE = "DataType";
     public static final String COMMENT = "Comment";
-    public static final String IDENTITY = "Identity";
+    public static final String PRIMARY = "PrimaryKey";
+    public static final String KEY = "Key";
+    public static final String ID = "Id";
+    public static final String REF = "Ref";
 }

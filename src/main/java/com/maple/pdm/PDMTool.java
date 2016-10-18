@@ -41,7 +41,6 @@ public class PDMTool {
         } else {
             log.error("File {} is not exist.", pdmFile);
         }
-
     }
 
 }
