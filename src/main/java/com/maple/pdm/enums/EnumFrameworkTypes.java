@@ -4,7 +4,10 @@ package com.maple.pdm.enums;
  * Created by gjf on 2016/10/18.
  */
 public enum EnumFrameworkTypes {
-    MYBATIS(1, "mybatis");
+    JAVA(0, "java"),
+    RESULTMAP(1, "resultMap"),
+    TYPEPARSER(2, "typeParser"),
+    MYBATIS(10, "mybatis");
 
     int key;
     String value;

@@ -13,6 +13,10 @@ public class GeneratorFactory {
 
     public static Generator getGenerator(EnumFrameworkTypes frameworkType) {
         switch (frameworkType) {
+            case JAVA:
+                return new JavaFileGenerator();
+            case RESULTMAP:
+                return new MybatisGenerator();
             case MYBATIS:
                 return new MybatisGenerator();
             default:

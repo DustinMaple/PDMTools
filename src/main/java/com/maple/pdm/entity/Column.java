@@ -9,6 +9,8 @@ public class Column {
     private String comment;
     private String type;
     private boolean primaryKey;
+    private String javaType;
+    private String javaCode;
 
     public String getName() {
         return name;
@@ -50,6 +52,22 @@ public class Column {
         this.primaryKey = primaryKey;
     }
 
+    public String getJavaType() {
+        return javaType;
+    }
+
+    public void setJavaType(String javaType) {
+        this.javaType = javaType;
+    }
+
+    public String getJavaCode() {
+        return javaCode;
+    }
+
+    public void setJavaCode(String javaCode) {
+        this.javaCode = javaCode;
+    }
+
     @Override
     public String toString() {
         return "Column{" +
@@ -58,6 +76,8 @@ public class Column {
                 ", comment='" + comment + '\'' +
                 ", type='" + type + '\'' +
                 ", primaryKey=" + primaryKey +
+                ", javaType='" + javaType + '\'' +
+                ", javaCode='" + javaCode + '\'' +
                 '}';
     }
 }

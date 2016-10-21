@@ -7,6 +7,8 @@ import java.util.List;
  */
 public class Table {
     private String name;
+    private String javaCode;
+    private String code;
     private List<Column> columnList;
 
     public String getName() {
@@ -25,10 +27,27 @@ public class Table {
         this.columnList = columnList;
     }
 
+    public String getJavaCode() {
+        return javaCode;
+    }
+
+    public void setJavaCode(String javaCode) {
+        this.javaCode = javaCode;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     @Override
     public String toString() {
         return "Table{" +
                 "name='" + name + '\'' +
+                ", javaCode='" + javaCode + '\'' +
                 ", columnList=" + columnList +
                 '}';
     }

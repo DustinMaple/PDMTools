@@ -1,31 +1,23 @@
 package com.maple.pdm.generator;
 
 import com.maple.pdm.core.Generator;
+import com.maple.pdm.core.GeneratorAdapter;
 import com.maple.pdm.entity.Table;
+import com.maple.pdm.enums.EnumFrameworkTypes;
+
 
 /**
  * Created by Administrator on 2016/9/20 0020.
  */
-public class MybatisGenerator implements Generator {
+public class MybatisGenerator extends GeneratorAdapter{
     @Override
-    public void generateFile(String path, Table table) {
-        generateJavaFile(path, table);
-        generateResultMapFile(path, table);
-    }
+    public void generateFile(String javaFilePath, String configFilePath, Table table) {
+        Generator javaFileGenerator = GeneratorFactory.getGenerator(EnumFrameworkTypes.JAVA);
+        Generator resultMapGenerator = GeneratorFactory.getGenerator(EnumFrameworkTypes.RESULTMAP);
 
-    /**
-     * Generate result map for mybatis framework.
-     * @param path
-     * @param table
-     */
-    private void generateResultMapFile(String path, Table table) {
-    }
-
-    /**
-     * Generate the pojo file.
-     * @param path
-     * @param table
-     */
-    private void generateJavaFile(String path, Table table) {
+        if(javaFileGenerator != null && resultMapGenerator != null){
+            javaFileGenerator.generateFile(javaFilePath, table);
+            resultMapGenerator.generateFile(configFilePath, table);
+        }
     }
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.g4f.PopoCommon.dbService.MapperAssoFriend">
+    <resultMap id="AssoFriendResultMap" type="com.g4f.PopoCommon.pojo.AssoFriend">
+        <id property="id" column="f_id" />
+        <result property = "fromPlayerId" column = "f_from_player_id" />
+        <result property = "toPlayerId" column = "f_to_player_id" />
+        <result property = "status" column = "f_status" />
+        <result property = "createTime" column = "f_create_time" />
+        <result property = "updateTime" column = "f_update_time" />
+    </resultMap>
+</mapper>

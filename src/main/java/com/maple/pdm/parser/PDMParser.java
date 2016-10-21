@@ -78,6 +78,8 @@ public class PDMParser implements Parser {
             element = (Element) iterator.next();
 
             table.setName(element.elementTextTrim(PDMNodeContants.NAME));
+            table.setCode(element.elementText(PDMNodeContants.CODE));
+            table.setJavaCode(TextParser.getInstance().parseJavaText(table.getCode(), true, true));
             table.setColumnList(getColumns(element));
             tableList.add(table);
         }
@@ -108,6 +110,8 @@ public class PDMParser implements Parser {
             column.setComment(columnElement.elementTextTrim(COMMENT));
             column.setType(columnElement.elementTextTrim(TYPE));
             column.setPrimaryKey(isPrimary);
+            column.setJavaType(TypeParser.getInstance().parseType(column.getType()));
+            column.setJavaCode(TextParser.getInstance().parseJavaText(column.getCode(), true, false));
 
             columnList.add(column);
         }

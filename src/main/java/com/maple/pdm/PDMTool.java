@@ -1,6 +1,9 @@
 package com.maple.pdm;
 
+import com.maple.pdm.core.Generator;
 import com.maple.pdm.entity.Table;
+import com.maple.pdm.enums.EnumFrameworkTypes;
+import com.maple.pdm.generator.GeneratorFactory;
 import com.maple.pdm.parser.PDMParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,32 +17,49 @@ public class PDMTool {
     private static final Logger log = LoggerFactory.getLogger(PDMTool.class);
 
 
-    String pdm_path = "E:/test.pdm";
-    String project_path = "E:\\PDMTools\\";
-    String middle_path = "src\\main\\java\\com\\pojo\\";
-    String mapper_path = "resource\\mapper\\";
+    String pdmPath = "E:/pdmToolTest/test.pdm";
+    String javaFilePath = "E:/pdmToolTest/";
+    String configFilePath = "E:/pdmToolTest/";
 
     //none ui
     public static void main(String[] args) {
-
-
         PDMTool tool = new PDMTool();
-
-        tool.run();
-
+        tool.runTools();
     }
 
-    private void run() {
+    public PDMTool(){}
+
+    public PDMTool(String pdmPath, String javaFilePath, String configFilePath){
+        this.pdmPath = pdmPath;
+        this.javaFilePath = javaFilePath;
+        this.configFilePath = configFilePath;
+    }
+
+    private void runTools() {
         /* Run a graphic interface to get all path parameter. */
 
-        String generate_class_file_to = "";
-        String generate_config_file_to = "";
 
-        File pdmFile = new File(pdm_path);
+        //Defination
+        Generator generator = GeneratorFactory.getGenerator(EnumFrameworkTypes.MYBATIS);
+        Table[] tableArray = null;
+        File pdmFile = new File(pdmPath);
+
+        //Parse
         if (pdmFile.exists()) {
-            Table[] tableList = PDMParser.getInstance().parse(pdmFile);
+            tableArray = PDMParser.getInstance().parse(pdmFile);
         } else {
             log.error("File {} is not exist.", pdmFile);
+        }
+        if(tableArray != null && tableArray.length > 0){
+            log.info("Pdm file parsing have success.");
+        }
+
+        //Generate file.
+        if(generator != null){
+            for(Table table : tableArray){
+                generator.generateFile(javaFilePath, configFilePath, table);
+                log.info("Generate table({}) completed.", table.getJavaCode());
+            }
         }
     }
 
