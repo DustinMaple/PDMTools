@@ -7,6 +7,7 @@ public enum EnumFrameworkTypes {
     JAVA(0, "java"),
     RESULTMAP(1, "resultMap"),
     TYPEPARSER(2, "typeParser"),
+    MAPPER(3, "mapper"),
     MYBATIS(10, "mybatis");
 
     int key;

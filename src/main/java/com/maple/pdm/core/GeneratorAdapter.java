@@ -7,12 +7,7 @@ import com.maple.pdm.entity.Table;
  */
 public class GeneratorAdapter implements Generator{
     @Override
-    public void generateFile(String javaFilePath, String configFilePath, Table table) {
-
-    }
-
-    @Override
-    public void generateFile(String path, Table table) {
+    public void generateFile(Table table) {
 
     }
 }

@@ -2,10 +2,12 @@ package com.maple.pdm.generator;
 
 import com.maple.pdm.constants.StringConstant;
 import com.maple.pdm.core.GeneratorAdapter;
+import com.maple.pdm.core.GlobalParameter;
 import com.maple.pdm.entity.Column;
 import com.maple.pdm.entity.Table;
 import com.maple.pdm.parser.TypeParser;
 import com.maple.pdm.utils.FileUtil;
+import com.maple.pdm.utils.StringUtil;
 
 import java.io.File;
 import java.util.List;
@@ -15,10 +17,17 @@ import java.util.List;
  */
 public class JavaFileGenerator extends GeneratorAdapter {
     @Override
-    public void generateFile(String path, Table table) {
-        File file = new File(path + table.getJavaCode() + ".java");
+    public void generateFile(Table table) {
+        File file = new File(GlobalParameter.getInstance().getPojoPath() + table.getJavaCode() + ".java");
         FileUtil.initFile(file);
         StringBuilder fileContent = new StringBuilder();
+
+        //package
+        fileContent.append("package ");
+        fileContent.append(GlobalParameter.getInstance().getPojoPackage());
+        fileContent.append(";");
+        fileContent.append(StringConstant.NEWLINE);
+        fileContent.append(StringConstant.NEWLINE);
 
         fileContent.append("public class ");
         fileContent.append(table.getJavaCode()).append("{");
@@ -75,6 +84,7 @@ public class JavaFileGenerator extends GeneratorAdapter {
         buffer.append(tab);
         buffer.append("return this.");
         buffer.append(column.getJavaCode());
+        buffer.append(";");
 
         return buffer.toString();
     }
@@ -85,7 +95,7 @@ public class JavaFileGenerator extends GeneratorAdapter {
         buffer.append(tab);
         buffer.append("public void ");
         buffer.append("set");
-        buffer.append(column.getJavaCode());
+        buffer.append(StringUtil.capitalToUpperCase(column.getJavaCode()));
         buffer.append("(");
         buffer.append(column.getJavaType());
         buffer.append(" ");
@@ -110,14 +120,14 @@ public class JavaFileGenerator extends GeneratorAdapter {
         buffer.append(column.getJavaType());
         buffer.append(" ");
         buffer.append("get");
-        buffer.append(column.getJavaCode());
+        buffer.append(StringUtil.capitalToUpperCase(column.getJavaCode()));
         buffer.append("(");
         buffer.append(column.getJavaType());
         buffer.append(" ");
         buffer.append(column.getJavaCode());
         buffer.append("){");
         buffer.append(StringConstant.NEWLINE);
-        buffer.append(defineSetterContent(column, tab + StringConstant.TAB));
+        buffer.append(defineGetterContent(column, tab + StringConstant.TAB));
         buffer.append(StringConstant.NEWLINE);
         buffer.append(tab);
         buffer.append("}");
@@ -134,7 +144,7 @@ public class JavaFileGenerator extends GeneratorAdapter {
         buffer.append("private ");
         buffer.append(TypeParser.getInstance().parseType(column.getType()));
         buffer.append(" ");
-        buffer.append(column.getCode());
+        buffer.append(column.getJavaCode());
         buffer.append(";");
         if(column.getComment() != null){
             buffer.append("//");

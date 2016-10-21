@@ -16,7 +16,9 @@ public class GeneratorFactory {
             case JAVA:
                 return new JavaFileGenerator();
             case RESULTMAP:
-                return new MybatisGenerator();
+                return new MybatisResultMapGenerator();
+            case MAPPER:
+                return new MybatisMapperGenerator();
             case MYBATIS:
                 return new MybatisGenerator();
             default:

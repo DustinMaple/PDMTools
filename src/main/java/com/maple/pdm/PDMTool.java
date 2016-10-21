@@ -1,6 +1,7 @@
 package com.maple.pdm;
 
 import com.maple.pdm.core.Generator;
+import com.maple.pdm.core.GlobalParameter;
 import com.maple.pdm.entity.Table;
 import com.maple.pdm.enums.EnumFrameworkTypes;
 import com.maple.pdm.generator.GeneratorFactory;
@@ -16,33 +17,27 @@ import java.io.File;
 public class PDMTool {
     private static final Logger log = LoggerFactory.getLogger(PDMTool.class);
 
-
-    String pdmPath = "E:/pdmToolTest/test.pdm";
-    String javaFilePath = "E:/pdmToolTest/";
-    String configFilePath = "E:/pdmToolTest/";
-
     //none ui
     public static void main(String[] args) {
         PDMTool tool = new PDMTool();
+
+        //Initial the parameter.
+        GlobalParameter.getInstance().initByConfig();
+
         tool.runTools();
     }
 
     public PDMTool(){}
 
-    public PDMTool(String pdmPath, String javaFilePath, String configFilePath){
-        this.pdmPath = pdmPath;
-        this.javaFilePath = javaFilePath;
-        this.configFilePath = configFilePath;
-    }
-
     private void runTools() {
         /* Run a graphic interface to get all path parameter. */
 
+        GlobalParameter globalParameter = GlobalParameter.getInstance();
 
         //Defination
         Generator generator = GeneratorFactory.getGenerator(EnumFrameworkTypes.MYBATIS);
         Table[] tableArray = null;
-        File pdmFile = new File(pdmPath);
+        File pdmFile = new File(globalParameter.getPdmPath());
 
         //Parse
         if (pdmFile.exists()) {
@@ -57,7 +52,7 @@ public class PDMTool {
         //Generate file.
         if(generator != null){
             for(Table table : tableArray){
-                generator.generateFile(javaFilePath, configFilePath, table);
+                generator.generateFile(table);
                 log.info("Generate table({}) completed.", table.getJavaCode());
             }
         }

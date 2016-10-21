@@ -16,7 +16,9 @@ public class PDMNodeContants {
     public static final String TYPE = "DataType";
     public static final String COMMENT = "Comment";
     public static final String PRIMARY = "PrimaryKey";
+    public static final String KEYS = "Keys";
     public static final String KEY = "Key";
+    public static final String KEYCOLUMNS = "Key.Columns";
     public static final String ID = "Id";
     public static final String REF = "Ref";
 }

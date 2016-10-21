@@ -103,7 +103,17 @@ public class PDMParser implements Parser {
 
             Element columnElement = (Element) iterator.next();
             String columnId = columnElement.attributeValue(PDMNodeContants.ID);
-            boolean isPrimary = element.element(PRIMARY).element(KEY).attributeValue(REF).equals(columnId);
+            Iterator keyIterator = element.element(KEYS).elements(KEY).iterator();
+            Element key = null;
+            boolean isPrimary = false;
+
+            while (keyIterator.hasNext()){
+                key = (Element) keyIterator.next();
+                isPrimary = key.attributeValue(ID).equalsIgnoreCase(element.element(PRIMARY).element(KEY).attributeValue(REF))
+                        && key.element(KEYCOLUMNS).element(COLUMN).attributeValue(REF).equalsIgnoreCase(columnId);
+            }
+
+            log.debug("Column id:{}, primary ref:{}", columnId, element.element(PRIMARY).element(KEY).attributeValue(REF));
 
             column.setName(columnElement.elementTextTrim(NAME));
             column.setCode(columnElement.elementTextTrim(CODE));
@@ -112,6 +122,8 @@ public class PDMParser implements Parser {
             column.setPrimaryKey(isPrimary);
             column.setJavaType(TypeParser.getInstance().parseType(column.getType()));
             column.setJavaCode(TextParser.getInstance().parseJavaText(column.getCode(), true, false));
+
+            log.debug("Column {} is Primary Key?{}", column.getCode(), isPrimary);
 
             columnList.add(column);
         }
