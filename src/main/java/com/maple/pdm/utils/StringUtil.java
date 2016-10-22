@@ -9,4 +9,8 @@ public class StringUtil {
         String left = s.substring(1);
         return new StringBuffer(capital).append(left).toString();
     }
+
+    public static String transformToDirectory(String s) {
+        return s.replaceAll("\\\\", "/") + "/";
+    }
 }

@@ -5,6 +5,7 @@ import com.maple.pdm.core.GlobalParameter;
 import com.maple.pdm.entity.Table;
 import com.maple.pdm.enums.EnumFrameworkTypes;
 import com.maple.pdm.generator.GeneratorFactory;
+import com.maple.pdm.log.LogTool;
 import com.maple.pdm.parser.PDMParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,7 @@ public class PDMTool {
 
     public PDMTool(){}
 
-    private void runTools() {
+    public void runTools() {
         /* Run a graphic interface to get all path parameter. */
 
         GlobalParameter globalParameter = GlobalParameter.getInstance();
@@ -41,7 +42,9 @@ public class PDMTool {
 
         //Parse
         if (pdmFile.exists()) {
+            LogTool.writeToPanelLine("开始解析pdm文件...");
             tableArray = PDMParser.getInstance().parse(pdmFile);
+            LogTool.writeToPanelLine("解析完成，共有" + tableArray.length + "个表。");
         } else {
             log.error("File {} is not exist.", pdmFile);
         }
@@ -52,8 +55,10 @@ public class PDMTool {
         //Generate file.
         if(generator != null){
             for(Table table : tableArray){
+                LogTool.writeToPanel("开始生成表" + table.getCode() + "...");
                 generator.generateFile(table);
                 log.info("Generate table({}) completed.", table.getJavaCode());
+                LogTool.writeToPanelLine("完成");
             }
         }
     }

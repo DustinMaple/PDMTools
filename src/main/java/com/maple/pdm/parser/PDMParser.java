@@ -1,6 +1,7 @@
 package com.maple.pdm.parser;
 
 import com.maple.pdm.constants.PDMNodeContants;
+import com.maple.pdm.core.GlobalParameter;
 import com.maple.pdm.core.Parser;
 import com.maple.pdm.entity.Column;
 import com.maple.pdm.entity.Table;
@@ -79,7 +80,7 @@ public class PDMParser implements Parser {
 
             table.setName(element.elementTextTrim(PDMNodeContants.NAME));
             table.setCode(element.elementText(PDMNodeContants.CODE));
-            table.setJavaCode(TextParser.getInstance().parseJavaText(table.getCode(), true, true));
+            table.setJavaCode(TextParser.getInstance().parseJavaText(table.getCode(), GlobalParameter.getInstance().isRemovePrefix(), true));
             table.setColumnList(getColumns(element));
             tableList.add(table);
         }
@@ -121,7 +122,7 @@ public class PDMParser implements Parser {
             column.setType(columnElement.elementTextTrim(TYPE));
             column.setPrimaryKey(isPrimary);
             column.setJavaType(TypeParser.getInstance().parseType(column.getType()));
-            column.setJavaCode(TextParser.getInstance().parseJavaText(column.getCode(), true, false));
+            column.setJavaCode(TextParser.getInstance().parseJavaText(column.getCode(), GlobalParameter.getInstance().isRemovePrefix(), false));
 
             log.debug("Column {} is Primary Key?{}", column.getCode(), isPrimary);
 
