@@ -216,7 +216,7 @@ public class MainFrame extends JFrame {
 
         this.setLayout(null);
         this.setTitle("PDM解析器");//窗体标签
-        this.setSize(700, 800);//窗体大小
+        this.setSize(700, 600);//窗体大小
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//退出关闭JFrame
         this.setVisible(true);//显示窗体
 
