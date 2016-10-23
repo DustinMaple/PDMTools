@@ -1,6 +1,5 @@
-package com.maple.pdm.ui;
+package com.maple.pdm;
 
-import com.maple.pdm.PDMTool;
 import com.maple.pdm.core.GlobalParameter;
 import com.maple.pdm.log.LogTool;
 import com.maple.pdm.utils.StringUtil;
@@ -30,6 +29,7 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
         GlobalParameter globalParameter = GlobalParameter.getInstance();
+        globalParameter.initByConfig();
         jfc.setCurrentDirectory(new File(globalParameter.getJavaRootSrc()));
         Font font = new Font("宋体", Font.PLAIN, 20);
         Dimension textFieldDimension = new Dimension(400, 30);
@@ -42,7 +42,7 @@ public class MainFrame extends JFrame {
         labelPdmFilePath.setFont(font);
         labelPdmFilePath.setPreferredSize(labelDimension);
         panelPdmFilePath.add(labelPdmFilePath);
-        JTextField textFieldPdmFilePath = new JTextField();
+        final JTextField textFieldPdmFilePath = new JTextField();
         textFieldPdmFilePath.setPreferredSize(textFieldDimension);
         textFieldPdmFilePath.setText(globalParameter.getPdmPath());
         panelPdmFilePath.add(textFieldPdmFilePath);
@@ -69,7 +69,7 @@ public class MainFrame extends JFrame {
         labelJavaRootPath.setFont(font);
         labelJavaRootPath.setPreferredSize(labelDimension);
         panelJavaRootPath.add(labelJavaRootPath);
-        JTextField textFieldJavaRootPath = new JTextField();
+        final JTextField textFieldJavaRootPath = new JTextField();
         textFieldJavaRootPath.setPreferredSize(textFieldDimension);
         textFieldJavaRootPath.setText(globalParameter.getJavaRootSrc());
         panelJavaRootPath.add(textFieldJavaRootPath);
@@ -96,7 +96,7 @@ public class MainFrame extends JFrame {
         labelMapPath.setFont(font);
         labelMapPath.setPreferredSize(labelDimension);
         panelMapPath.add(labelMapPath);
-        JTextField textFieldMapPath = new JTextField();
+        final JTextField textFieldMapPath = new JTextField();
         textFieldMapPath.setPreferredSize(textFieldDimension);
         textFieldMapPath.setText(globalParameter.getMapPath());
         panelMapPath.add(textFieldMapPath);
@@ -123,7 +123,7 @@ public class MainFrame extends JFrame {
         labelPojoPackage.setFont(font);
         labelPojoPackage.setPreferredSize(labelDimension);
         panelPojoPackage.add(labelPojoPackage);
-        JTextField textFieldPojoPackage = new JTextField();
+        final JTextField textFieldPojoPackage = new JTextField();
         textFieldPojoPackage.setPreferredSize(textFieldDimension);
         textFieldPojoPackage.setText(globalParameter.getPojoPackage());
         panelPojoPackage.add(textFieldPojoPackage);
@@ -135,7 +135,7 @@ public class MainFrame extends JFrame {
         labelMapperPackage.setFont(font);
         labelMapperPackage.setPreferredSize(labelDimension);
         panelMapperPackage.add(labelMapperPackage);
-        JTextField textFieldMapperPackage = new JTextField();
+        final JTextField textFieldMapperPackage = new JTextField();
         textFieldMapperPackage.setPreferredSize(textFieldDimension);
         textFieldMapperPackage.setText(globalParameter.getMapperPackage());
         panelMapperPackage.add(textFieldMapperPackage);
@@ -149,18 +149,18 @@ public class MainFrame extends JFrame {
         panelRemovePrefix.add(labelRemovePrefix);
         ButtonGroup groupRemovePrefix = new ButtonGroup();
         boolean propertyRemovePrefix = globalParameter.isRemovePrefix();
-        JRadioButton removePrefix = new JRadioButton("是", propertyRemovePrefix);
+        final JRadioButton removePrefix = new JRadioButton("是", propertyRemovePrefix);
         JRadioButton notRemovePrefix = new JRadioButton("否", !propertyRemovePrefix);
         groupRemovePrefix.add(removePrefix);
         groupRemovePrefix.add(notRemovePrefix);
         panelRemovePrefix.add(removePrefix);
         panelRemovePrefix.add(notRemovePrefix);
-        JButton buttonRun = new JButton("开始");
+        final JButton buttonRun = new JButton("开始");
         panelRemovePrefix.add(buttonRun);
 
         //处理信息
         panelHandleInfo = new JPanel();
-        JTextArea area = new JTextArea(8, 45);
+        final JTextArea area = new JTextArea(8, 45);
         area.setEditable(false );
         area.setFont(new Font(null, Font.PLAIN, 18));
         JScrollPane scrollPane = new JScrollPane(area);

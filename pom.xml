@@ -3,13 +3,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                       http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>com.maple.pdm</groupId>
     <artifactId>PDMTools</artifactId>
     <version>1.0</version>
-    <modules>
-        <module>../Blog</module>
-    </modules>
-    <packaging>pom</packaging>
 
     <dependencies>
         <!-- about log -->
@@ -57,33 +54,58 @@
     </dependencies>
 
     <build>
-        <finalName>${artifactId}</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
-                <targetPath>${project.build.directory}</targetPath>
+                <includes>
+                    <include>**/*.properties</include>
+                    <!--<include>**/*.xml</include>-->
+                </includes>
+                <targetPath>src/main/resources/</targetPath>
+                <filtering>false</filtering>
             </resource>
         </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
                 <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
                     <encoding>UTF-8</encoding>
-                    <source>1.8</source>
-                    <target>1.8</target>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.maple.pdm.PDMTool</mainClass>
+                            <mainClass>com.maple.pdm.MainFrame</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.jolira</groupId>
+                <artifactId>onejar-maven-plugin</artifactId>
+                <version>1.4.4</version>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <attachToBuild>true</attachToBuild>
+                            <classifier>onejar</classifier>
+                        </configuration>
+                        <goals>
+                            <goal>one-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

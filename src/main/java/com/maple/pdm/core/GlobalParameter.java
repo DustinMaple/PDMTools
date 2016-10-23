@@ -3,10 +3,7 @@ package com.maple.pdm.core;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Properties;
 
 /**
@@ -45,14 +42,16 @@ public class GlobalParameter {
 
         Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream(new File("src/resources/config.properties")));
+//            properties.load(ClassLoader.getSystemResourceAsStream("config.properties"));
+//            properties.load(new FileInputStream(new File("src/main/resources/config.properties")));
             properties.setProperty("removePrefix", String.valueOf(removePrefix));
             properties.setProperty("pdmPath", pdmPath);
             properties.setProperty("javaRoot", javaRootSrc);
             properties.setProperty("pojoPackage", pojoPackage);
             properties.setProperty("mapperPackage", mapperPackage);
             properties.setProperty("mapConfigPath", mapPath);
-            properties.store(new FileOutputStream(new File("src/resources/config.properties")), "");
+            String dir = System.getProperty("user.dir");
+            properties.store(new FileOutputStream(new File(dir + "/src/main/resources/config.properties")), "");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -94,7 +93,9 @@ public class GlobalParameter {
     public void initByConfig() {
         Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream(new File("src/resources/config.properties")));
+            String dir = System.getProperty("user.dir");
+            log.info("user.dir:{}", dir);
+            properties.load(new FileInputStream(new File(dir + "/src/main/resources/config.properties")));
             init(
                     Boolean.parseBoolean(properties.getProperty("removePrefix")),
                     properties.getProperty("pdmPath"),
