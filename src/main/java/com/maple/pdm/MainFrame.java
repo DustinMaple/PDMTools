@@ -202,7 +202,6 @@ public class MainFrame extends JFrame {
         panelPojoPackage.setBounds(0, 150, 700, 50);
         panelMapperPackage.setBounds(0, 200, 700, 50);
         panelRemovePrefix.setBounds(0, 250, 700, 50);
-//        panelRun.setBounds(0, 300, 700, 50);
         panelHandleInfo.setBounds(0, 300, 700, 200);
 
         this.add(panelPdmFilePath);
